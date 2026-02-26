@@ -41,11 +41,11 @@ public sealed class MemberServices
         return (Member);
     }
 
-    public IEnumerable<MemberDto> GetmemberByType(int ID)
+    public IEnumerable<MemberDto> GetMemberByType(int ID)
     {
         IReadOnlyList<MemberDto> Member = _DbContext.Members
-            .Include(mt => mt.MemberType)
-            .Where(mt => mt.MemberType.Id == ID )
+            .Include(m => m.MemberType)
+            .Where(m => m.Id == ID )
             .Select(m => new MemberDto(
                 m.Id,
                 m.MemberName,

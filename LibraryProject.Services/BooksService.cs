@@ -19,14 +19,14 @@ public sealed class BooksService
     public IEnumerable<BooksDto> GetBooksList()
     {
         
-        var books = _DbContext.books
-            .Include(Books => Books.Category)              
-            .Select(Books => new BooksDto(
-                Books.Id,
-                Books.BookName,
-                Books.AuthorName,
-                Books.Publisher,
-                Books.CategoryId,))
+        var books = _DbContext.Books
+            .Include(b => b.Category)              
+            .Select(b => new BooksDto(
+                b.Id,
+                b.BookName,
+                b.AuthorName,
+                b.Publisher,
+                b.CategoryId))
             .ToList();                                    
     
         return books;
@@ -34,14 +34,11 @@ public sealed class BooksService
 
     public BooksDto? GetBookById(int Id)
     {
-        var BookDto = _DbContext.Books
-            .Where(Books  => Books.Id == Id)
+        return _DbContext.Books
+            .Where(b  => b.Id == Id)
             .Select(b => new BooksDto(
-                Books.Id, Books.BookName, Books.AuthorName, Books.Publisher,))
+                b.Id, b.BookName, b.AuthorName, b.Publisher,b.CategoryId))
             .FirstOrDefault();
-
-        return BooksDto;
-
-       
+        
     }
 }

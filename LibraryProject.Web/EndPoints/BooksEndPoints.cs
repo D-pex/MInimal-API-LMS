@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace LibraryProject.Web.EndPoints;
 
-public static class BookEndpoints
+public static class BooksEndpoints
 {
-    public static IEndpointRouteBuilder MapBookEndpoints(this IEndpointRouteBuilder endpoints)
+    public static IEndpointRouteBuilder MapBooksEndpoints(this IEndpointRouteBuilder endpoints)
     {
         ArgumentNullException.ThrowIfNull(endpoints);
 
@@ -24,9 +24,9 @@ public static class BookEndpoints
         return TypedResults.Ok(Books);
     }
 
-    private static IResult GetBook(BooksService booksService, int ID)
+    private static IResult GetBook(BooksService service, int ID)
     {
-        var Books = BooksService.GetBookById(ID);
+        var Books = service.GetBookById(ID);
 
         return Books == null ? TypedResults.NotFound() : TypedResults.Ok(Books);
     }

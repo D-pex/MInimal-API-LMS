@@ -22,7 +22,7 @@ public sealed class CategoryServices
     {
         IList<CategoryDto> categories = _DbContext.Categories
             .Select(c => new CategoryDto(
-                c.ID,
+                c.Id,
                 c.CategoryName
             ))
             .ToList();
@@ -32,9 +32,9 @@ public sealed class CategoryServices
     public CategoryDto? GetCategoryByID(int ID)
     {
         var category = _DbContext.Categories
-            .Where(c => c.ID == ID)
+            .Where(c => c.Id == ID)
             .Select(c => new CategoryDto(
-                c.ID,
+                c.Id,
                 c.CategoryName
             ))
             .FirstOrDefault();

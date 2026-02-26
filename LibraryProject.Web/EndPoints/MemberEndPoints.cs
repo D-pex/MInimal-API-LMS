@@ -40,9 +40,9 @@ public static class MemberEndpoints
         return Member == null ? TypedResults.NotFound() : TypedResults.Ok(Member);
     }
 
-    private static IResult GetUsersByType(MemberServices memberServices, int ID)
+    private static IResult GetMemberByType(MemberServices services, int ID)
     {
-        var Member = memberServices.GetMemberByType(ID);
+        var Member = services.GetMemberByType(ID);
         return TypedResults.Ok(Member);
     }
 }
