@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using LibraryProject.Persistence;
 using LibraryProject.Services;
-using LibraryProject.Web.Endpoints;
+using LibraryProject.Web.EndPoints;
 
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,21 +12,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-{ 
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyDbContext"));
 });
 
 builder.Services
-    .AddScoped(BooksService)
-    .AddScoped(BookIssueService)
+    .AddScoped<BooksService>()
+    .MapMemberEndpoints()
+    .MapCategoryEndpoints();
+   
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
+app.UseHttpsRedirection();
+
+var apiGroup = app.MapGroup("api");
+
+apiGroup.MapBooksEndPoints();
+   
+
+app.MapGet("/", () => $"Running in {app.Environment.EnvironmentName} right now.");
+
+
+app.Run();
 
 

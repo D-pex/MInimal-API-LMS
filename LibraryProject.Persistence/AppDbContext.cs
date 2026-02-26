@@ -10,10 +10,10 @@ public sealed class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Books> Books { get; set; }
-    public DbSet<BookIssue> BookIssues { get; set; }
-    public DbSet<Member> Members { get; set; }
-    public DbSet<Category> Categories { get; set; }
+    public DbSet<Books> Books { get; init ; }
+    public DbSet<BookIssue> BookIssues { get; init; }
+    public DbSet<Member> Members { get; init; }
+    public DbSet<Category> Categories { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

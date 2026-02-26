@@ -1,30 +1,47 @@
 using LibraryProject.Core.Dtos;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using LibraryProject.Persistence;
 
 namespace LibraryProject.Services;
 
-public sealed class BooksService(AppDbContext context)
+public sealed class BooksService
 {
-    public IEnumerable<BooksDto> GetAll()
+    private readonly AppDbContext _DbContext;
+    private readonly ILogger<BooksService> _logger;
+
+    public BooksService(AppDbContext dbContext, ILogger<BooksService> logger)
     {
-        return context.Books
-            .Include(Books => Books.Category )
-            .Select(b => new BooksDto(Books.Id, Books.BookName,Books.AuthorName, Books.Publisher, Books.CategoryId))
-            .ToList();
+        _DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _logger = logger;
     }
 
-    public IEnumerable<BooksDto> Search(string keyword)
+    public IEnumerable<BooksDto> GetBooksList()
     {
-        keyword = keyword.ToLower();
+        
+        var books = _DbContext.books
+            .Include(Books => Books.Category)              
+            .Select(Books => new BooksDto(
+                Books.Id,
+                Books.BookName,
+                Books.AuthorName,
+                Books.Publisher,
+                Books.CategoryId,))
+            .ToList();                                    
+    
+        return books;
+    }
 
-        return context.Books
-            .Include(Books => Books.Category)
-            .Where( books  =>
-                Books.BookName.ToLower().Contains(keyword) ||
-                b.AuthorName.ToLower().Contains(keyword))
-            .Select(b => new BooksDto( Books.Id, Books.BookName, Books.AuthorName, Books.Publisher, Books.BookPrice, Books.CategoryId
-            ))
-            .ToList();
+    public BooksDto? GetBookById(int Id)
+    {
+        var BookDto = _DbContext.Books
+            .Where(Books  => Books.Id == Id)
+            .Select(b => new BooksDto(
+                Books.Id, Books.BookName, Books.AuthorName, Books.Publisher,))
+            .FirstOrDefault();
+
+        return BooksDto;
+
+       
     }
 }

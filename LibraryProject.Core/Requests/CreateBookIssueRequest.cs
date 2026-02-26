@@ -2,6 +2,6 @@ namespace LibraryProject.Core.Requests;
 
 public sealed class CreateBookIssueRequest
 {
-     public int BookId { get; init; }
-     public int MemberId { get; init; }
+     public int BookID { get; init; }
+     public int MemberID { get; init; }
 }
