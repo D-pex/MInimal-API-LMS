@@ -1,4 +1,5 @@
 using LibraryProject.Core.Dtos;
+using LibraryProject.Core.Requests;
 using LibraryProject.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -38,5 +39,42 @@ public sealed class BooksService
             .Select(b => new BooksDto(
                 b.BookId, b.BookName, b.AuthorName, b.PublisherName, b.CategoryId))
             .FirstOrDefault();
+    }
+
+    public BooksDto? AddBooks(int CategoryID, CreateBooksRequest request)
+    {
+        Category? category = _DbContext.Category.FirstOrDefault(c => c.CategoryID == CategoryID);
+        if (category == null)
+        {
+            return null;                
+        }
+
+        Books? books = _DbContext.Book.FirstOrDefault(b =>
+            b.BookName == request.BookName && b.AuthorName == request.AuthorName &&
+            b.PublisherName == request.PublisherName
+        );
+
+        if (books is null)
+        {
+            return null;
+        }
+
+        books = new Books
+        {
+            BookName = request.BookName,
+            AuthorName = request.AuthorName,
+            PublisherName = request.PublisherName,
+            CategoryId = CategoryID
+
+        };
+             
+        _DbContext.Add(books); 
+        _DbContext.SaveChanges();
+        return new BooksDto(books.BookId,
+            books.BookName,
+            books.AuthorName,
+            books.PublisherName,
+            books.Category.CategoryID );
+            
     }
 }
