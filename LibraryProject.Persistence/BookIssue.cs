@@ -1,11 +1,11 @@
 namespace LibraryProject.Persistence;
 
-public sealed class BookIssue(int Id, DateOnly IssueDate, DateOnly ReturnDate, DateOnly RenewDate , int BookID, int MemberID)
+public sealed class BookIssue
 {
-    public int Id { get; } = Id;
-    public DateOnly IssueDate { get; } = IssueDate;
-    public DateOnly ReturnDate { get; } = ReturnDate;
-    public DateOnly? RenewDate { get; } = RenewDate;
-    public int BookID { get; } = BookID;
-    public int MemberID { get; } = MemberID;
+    public int Id { get; set; } 
+    public DateOnly IssueDate { get; set; } 
+    public DateOnly ReturnDate { get; set; } 
+    public DateOnly RenewDate { get; set; } 
+    public int BookID { get; set; } 
+    public int MemberID { get; set; } 
 }

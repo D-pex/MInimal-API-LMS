@@ -9,7 +9,7 @@ public static class BooksEndpoints
 {
     public static IEndpointRouteBuilder MapBooksEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        ArgumentNullException.ThrowIfNull(endpoints);
+        ArgumentNullException.ThrowIfNull(endpoints); 
 
         endpoints.MapGet("Books", GetBooks);
         endpoints.MapGet("Books/{ID:int}", GetBook);
@@ -19,15 +19,15 @@ public static class BooksEndpoints
 
     private static Ok<IEnumerable<BooksDto>> GetBooks(BooksService booksService)
     {
-        var Books = booksService.GetBooksList();
+        var books = booksService.GetBooksList();
 
-        return TypedResults.Ok(Books);
+        return TypedResults.Ok(books);
     }
 
     private static IResult GetBook(BooksService service, int ID)
     {
-        var Books = service.GetBookById(ID);
+        var books = service.GetBookById(ID);
 
-        return Books == null ? TypedResults.NotFound() : TypedResults.Ok(Books);
+        return books == null ? TypedResults.NotFound() : TypedResults.Ok(books);
     }
 }

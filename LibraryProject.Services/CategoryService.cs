@@ -20,9 +20,9 @@ public sealed class CategoryServices
 
     public IEnumerable<CategoryDto> GetCategoriesList()
     {
-        IList<CategoryDto> categories = _DbContext.Categories
+        IList<CategoryDto> categories = _DbContext.Category
             .Select(c => new CategoryDto(
-                c.Id,
+                c.CategoryID,
                 c.CategoryName
             ))
             .ToList();
@@ -31,10 +31,10 @@ public sealed class CategoryServices
 
     public CategoryDto? GetCategoryByID(int ID)
     {
-        var category = _DbContext.Categories
-            .Where(c => c.Id == ID)
+        var category = _DbContext.Category
+            .Where(c => c.CategoryID == ID)
             .Select(c => new CategoryDto(
-                c.Id,
+                c.CategoryID,
                 c.CategoryName
             ))
             .FirstOrDefault();

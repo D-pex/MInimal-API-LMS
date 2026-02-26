@@ -19,7 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services
     .AddScoped<BooksService>()
     .AddScoped<MemberServices>()
-    .AddScoped<Category>();
+    .AddScoped<CategoryServices>();
    
 
 var app = builder.Build();
