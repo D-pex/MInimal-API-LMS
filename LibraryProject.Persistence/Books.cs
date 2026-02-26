@@ -1,7 +1,6 @@
 namespace LibraryProject.Persistence;
 
-
-public sealed class Books 
+public sealed class Books
 {
     public int BookId { get; set; }
 
@@ -10,6 +9,4 @@ public sealed class Books
     public string PublisherName { get; set; } = string.Empty;
     public int CategoryId { get; set; }
     public Category Category { get; set; }
-    
-    
 }

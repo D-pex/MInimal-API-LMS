@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="LibraryProject.Core/LibraryProject.Core.csproj" />
-  <Project Path="LibraryProject.Persistence/LibraryProject.Persistence.csproj" />
-  <Project Path="LibraryProject.Services/LibraryProject.Services.csproj" />
-  <Project Path="LibraryProject.Web/LibraryProject.Web.csproj" />
+    <Project Path="LibraryProject.Core/LibraryProject.Core.csproj"/>
+    <Project Path="LibraryProject.Persistence/LibraryProject.Persistence.csproj"/>
+    <Project Path="LibraryProject.Services/LibraryProject.Services.csproj"/>
+    <Project Path="LibraryProject.Web/LibraryProject.Web.csproj"/>
 </Solution>

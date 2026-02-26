@@ -11,9 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LibraryProject.Core\LibraryProject.Core.csproj" />
-      <ProjectReference Include="..\LibraryProject.Persistence\LibraryProject.Persistence.csproj" />
-      <ProjectReference Include="..\LibraryProject.Services\LibraryProject.Services.csproj" />
+        <ProjectReference Include="..\LibraryProject.Core\LibraryProject.Core.csproj"/>
+        <ProjectReference Include="..\LibraryProject.Persistence\LibraryProject.Persistence.csproj"/>
+        <ProjectReference Include="..\LibraryProject.Services\LibraryProject.Services.csproj"/>
     </ItemGroup>
 
 </Project>

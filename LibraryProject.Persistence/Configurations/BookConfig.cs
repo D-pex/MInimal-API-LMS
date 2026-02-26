@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibraryProject.Persistence.Configurations;
 
-public class BookConfig :  IEntityTypeConfiguration<Books>
+public class BookConfig : IEntityTypeConfiguration<Books>
 {
     public void Configure(EntityTypeBuilder<Books> builder)
     {
@@ -14,7 +14,5 @@ public class BookConfig :  IEntityTypeConfiguration<Books>
             .Property(s => s.BookName)
             .IsRequired()
             .HasMaxLength(50);
-
-        
     }
 }

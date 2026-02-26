@@ -1,5 +1,4 @@
 using LibraryProject.Core.Dtos;
-using LibraryProject.Persistence;
 using LibraryProject.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -9,7 +8,7 @@ public static class BooksEndpoints
 {
     public static IEndpointRouteBuilder MapBooksEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        ArgumentNullException.ThrowIfNull(endpoints); 
+        ArgumentNullException.ThrowIfNull(endpoints);
 
         endpoints.MapGet("Books", GetBooks);
         endpoints.MapGet("Books/{ID:int}", GetBook);

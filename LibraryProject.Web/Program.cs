@@ -1,8 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using LibraryProject.Persistence;
 using LibraryProject.Services;
 using LibraryProject.Web.EndPoints;
-
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +18,7 @@ builder.Services
     .AddScoped<BooksService>()
     .AddScoped<MemberServices>()
     .AddScoped<CategoryServices>();
-   
+
 
 var app = builder.Build();
 
@@ -35,11 +33,9 @@ apiGroup
     .MapBooksEndpoints()
     .MapMemberEndpoints()
     .MapCategoryEndpoints();
-   
+
 
 app.MapGet("/", () => $"Running in {app.Environment.EnvironmentName} right now.");
 
 
 app.Run();
-
-

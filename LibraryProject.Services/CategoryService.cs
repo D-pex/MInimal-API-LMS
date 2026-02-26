@@ -5,8 +5,6 @@ using Microsoft.Extensions.Logging;
 
 namespace LibraryProject.Services;
 
-
-
 public sealed class CategoryServices
 {
     private readonly AppDbContext _DbContext;

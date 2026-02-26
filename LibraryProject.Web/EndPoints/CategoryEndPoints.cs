@@ -1,8 +1,6 @@
-
 using LibraryProject.Core.Dtos;
 using LibraryProject.Services;
-using Microsoft.AspNetCore.Http.HttpResults; 
-
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace LibraryProject.Web.EndPoints;
 

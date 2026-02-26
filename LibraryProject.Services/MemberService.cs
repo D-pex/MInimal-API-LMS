@@ -3,7 +3,6 @@ using LibraryProject.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-
 namespace LibraryProject.Services;
 
 public sealed class MemberServices
@@ -33,24 +32,24 @@ public sealed class MemberServices
     {
         var Member = _DbContext.Members
             .Where(m => m.Id == ID)
-            .Select(m  => new MemberDto(
+            .Select(m => new MemberDto(
                 m.Id,
                 m.MemberName,
                 m.MemberType)).FirstOrDefault();
 
-        return (Member);
+        return Member;
     }
 
     public IEnumerable<MemberDto> GetMemberByType(int ID)
     {
         IReadOnlyList<MemberDto> Member = _DbContext.Members
             .Include(m => m.MemberType)
-            .Where(m => m.Id == ID )
+            .Where(m => m.Id == ID)
             .Select(m => new MemberDto(
                 m.Id,
                 m.MemberName,
                 m.MemberType))
             .ToList();
-        return (Member);
+        return Member;
     }
 }
