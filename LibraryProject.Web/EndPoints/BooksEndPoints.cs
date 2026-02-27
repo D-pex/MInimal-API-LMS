@@ -38,7 +38,7 @@ public static class BooksEndpoints
         [FromBody]CreateBooksRequest createBooksRequest)
     {
         BooksDto? booksDto = booksService.AddBooks( categoryId , createBooksRequest ) ;
-        return booksDto is null ? TypedResults.NotFound() : TypedResults.Ok(booksDto);
+        return booksDto is null ? TypedResults.NotFound("Book Is Already Present ") : TypedResults.Ok(booksDto);
 
     }
 }

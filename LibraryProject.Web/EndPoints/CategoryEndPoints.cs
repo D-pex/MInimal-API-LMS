@@ -35,6 +35,6 @@ public static class CategoryEndpoints
     private static IResult GetCategoryByID(CategoryServices categoryServices, int ID)
     {
         var category = categoryServices.GetCategoryByID(ID);
-        return category == null ? TypedResults.NotFound("ID Not Found.") : TypedResults.Ok(category);
+        return category == null ? TypedResults.NotFound("Category ID  Not Found.") : TypedResults.Ok(category);
     }
 }

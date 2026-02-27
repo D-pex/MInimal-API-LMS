@@ -1,4 +1,5 @@
 using LibraryProject.Core.Dtos;
+using LibraryProject.Core.Requests;
 using LibraryProject.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -51,5 +52,32 @@ public sealed class MemberServices
                 m.MemberType))
             .ToList();
         return Member;
+    }
+    
+    public MemberDto?  AddMember( CreateMemberRequest creatememberrequest)
+    {
+       
+
+        Member?  member = _DbContext.Members.FirstOrDefault(m => m.MemberName == creatememberrequest.MemberName && m.MemberType == creatememberrequest.MemberType);
+
+        if (member is not null)
+        {
+            return null;
+        }
+
+        member = new Member
+        {
+            MemberName = creatememberrequest.MemberName,
+            MemberType = creatememberrequest.MemberType,
+        };
+             
+        _DbContext.Add(member); 
+        _DbContext.SaveChanges();
+        return new MemberDto(
+            member.Id,
+            member.MemberName,
+            member.MemberType
+           );
+            
     }
 }
