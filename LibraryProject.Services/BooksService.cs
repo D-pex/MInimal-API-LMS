@@ -26,7 +26,7 @@ public sealed class BooksService
                 b.BookName,
                 b.AuthorName,
                 b.PublisherName,
-                b.CategoryId))
+                b.CategoryID))
             .ToList();
 
         return books;
@@ -37,11 +37,11 @@ public sealed class BooksService
         return _DbContext.Book
             .Where(b => b.BookId == Id)
             .Select(b => new BooksDto(
-                b.BookId, b.BookName, b.AuthorName, b.PublisherName, b.CategoryId))
+                b.BookId, b.BookName, b.AuthorName, b.PublisherName, b.CategoryID))
             .FirstOrDefault();
     }
 
-    public BooksDto? AddBooks(int CategoryID, CreateBooksRequest request)
+    public BooksDto? AddBooks(int CategoryID, CreateBooksRequest createBooksRequest)
     {
         Category? category = _DbContext.Category.FirstOrDefault(c => c.CategoryID == CategoryID);
         if (category == null)
@@ -50,8 +50,8 @@ public sealed class BooksService
         }
 
         Books? books = _DbContext.Book.FirstOrDefault(b =>
-            b.BookName == request.BookName && b.AuthorName == request.AuthorName &&
-            b.PublisherName == request.PublisherName
+            b.BookName == createBooksRequest.BookName && b.AuthorName == createBooksRequest.AuthorName &&
+            b.PublisherName == createBooksRequest.PublisherName
         );
 
         if (books is null)
@@ -61,20 +61,21 @@ public sealed class BooksService
 
         books = new Books
         {
-            BookName = request.BookName,
-            AuthorName = request.AuthorName,
-            PublisherName = request.PublisherName,
-            CategoryId = CategoryID
+            BookName = createBooksRequest.BookName,
+            AuthorName = createBooksRequest.AuthorName,
+            PublisherName = createBooksRequest.PublisherName,
+            CategoryID = CategoryID
 
         };
              
         _DbContext.Add(books); 
         _DbContext.SaveChanges();
-        return new BooksDto(books.BookId,
+        return new BooksDto(
+            books.BookId,
             books.BookName,
             books.AuthorName,
             books.PublisherName,
-            books.Category.CategoryID );
+            books.CategoryID);
             
     }
 }

@@ -20,6 +20,7 @@ public static class CategoryEndpoints
 
         categoryGroup.MapGet("", GetCategory);
         categoryGroup.MapGet("{ID:int}", GetCategoryByID);
+      
 
         return endpoints;
     }

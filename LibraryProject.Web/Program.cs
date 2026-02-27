@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseHttpsRedirection();
 
-var apiGroup = app.MapGroup("api");
+var apiGroup = app.MapGroup("/api");
 
 apiGroup
     .MapBooksEndpoints()
