@@ -54,7 +54,7 @@ public sealed class BooksService
             b.PublisherName == createBooksRequest.PublisherName
         );
 
-        if (books is null)
+        if (books is not null)
         {
             return null;
         }

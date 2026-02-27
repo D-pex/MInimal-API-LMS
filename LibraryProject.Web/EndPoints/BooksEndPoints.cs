@@ -14,7 +14,7 @@ public static class BooksEndpoints
         
         endpoints.MapGet("Books", GetBooks);
         endpoints.MapGet("Books/{ID:int}", GetBook);  
-        endpoints.MapPost("Books/Category/{categoryID:int}", AddBooks); 
+        endpoints.MapPost("Books/Category/{categoryId:int}", AddBooks); 
        
 
         return endpoints;
@@ -23,7 +23,7 @@ public static class BooksEndpoints
     private static Ok<IEnumerable<BooksDto>> GetBooks(BooksService booksService)
     {
         var books = booksService.GetBooksList();
-
+    
         return TypedResults.Ok(books);
     }
 
