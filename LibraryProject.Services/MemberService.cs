@@ -17,41 +17,39 @@ public sealed class MemberServices
         _logger = logger;
     }
 
-    public IEnumerable<MemberDto> GetMemberList()
+    public IEnumerable<MemberDto> GetAllMembers()
     {
-        IReadOnlyList<MemberDto> Member = _DbContext.Members
-            .Include(m => m.MemberType)
+        IReadOnlyList<MemberDto> memberDtos = _DbContext.Members
             .Select(m => new MemberDto(
-                m.Id,
+                m.MemberId,
                 m.MemberName,
                 m.MemberType)).ToList();
 
-        return Member;
+        return memberDtos;
     }
 
-    public MemberDto? GetMemberByID(int ID)
+    public MemberDto? GetMemberById(int ID)
     {
-        var Member = _DbContext.Members
-            .Where(m => m.Id == ID)
+        var memberDto = _DbContext.Members
+            .Where(m => m.MemberId == ID)
             .Select(m => new MemberDto(
-                m.Id,
+                m.MemberId,
                 m.MemberName,
                 m.MemberType)).FirstOrDefault();
 
-        return Member;
+        return memberDto;
     }
 
     public IEnumerable<MemberDto> GetMemberByType(int ID)
     {
-        IReadOnlyList<MemberDto> Member = _DbContext.Members
-            .Include(m => m.MemberType)
-            .Where(m => m.Id == ID)
+        IReadOnlyList<MemberDto> memberDtos = _DbContext.Members
+            .Where(m => m.MemberId == ID)
             .Select(m => new MemberDto(
-                m.Id,
+                m.MemberId,
                 m.MemberName,
                 m.MemberType))
             .ToList();
-        return Member;
+        return memberDtos;
     }
     
     public MemberDto?  AddMember( CreateMemberRequest creatememberrequest)
@@ -74,7 +72,7 @@ public sealed class MemberServices
         _DbContext.Add(member); 
         _DbContext.SaveChanges();
         return new MemberDto(
-            member.Id,
+            member.MemberId,
             member.MemberName,
             member.MemberType
            );

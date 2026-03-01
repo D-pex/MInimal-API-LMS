@@ -19,38 +19,36 @@ public static class MemberEndpoints
 
         var memberGroup = endpoints.MapMemberGroup();
 
-        memberGroup.MapGet("", Getmember);
-        memberGroup.MapGet("{ID:int}", Getmember);
-        memberGroup.MapGet("ByType/{ID:int}", GetMemberByType);
+        memberGroup.MapGet("", GetAllMembers);
+        memberGroup.MapGet("{ID:int}", GetMemberById);
+        memberGroup.MapGet("ByType/", GetMembersByType);
         memberGroup.MapPost("Add",AddMember);
 
         return endpoints;
     }
 
-    private static Ok<IEnumerable<MemberDto>> Getmember(MemberServices memberServices)
+    private static Ok<IEnumerable<MemberDto>> GetAllMembers(MemberServices service)
     {
-        var member = memberServices.GetMemberList();
-        return TypedResults.Ok(member);
+        return TypedResults.Ok(service.GetAllMembers());
     }
 
-    private static IResult GetMember(MemberServices memberServices, int ID)
+    private static IResult GetMemberById(MemberServices service, int id)
     {
-        var member = memberServices.GetMemberByID(ID);
-        return member == null ? TypedResults.NotFound() : TypedResults.Ok(member);
+        MemberDto? member = service.GetMemberById(id);
+
+        return member == null ? TypedResults.NotFound():
+            TypedResults.Ok(member);
     }
 
-    private static IResult GetMemberByType(MemberServices services, int ID)
+   private static Ok<IEnumerable<MemberDto>> GetMembersByType(MemberServices service, int Id )
     {
-        var member = services.GetMemberByType(ID);
-        return TypedResults.Ok(member);
+        return TypedResults.Ok(service.GetMemberByType(Id));
     }
-    
-    public static IResult AddMember(MemberServices memberServices, 
-        CreateMemberRequest createMemberRequest)
-    {
-        MemberDto? MemberDto = memberServices.AddMember( createMemberRequest ) ;
-        return MemberDto is null ? TypedResults.NotFound("Member Already Present") : TypedResults.Ok(MemberDto);
 
+    public static IResult AddMember(MemberServices service, CreateMemberRequest request)
+    {
+        MemberDto? member = service.AddMember(request);
+        return member == null ? TypedResults.NotFound() :  TypedResults.Ok(member);
     }
     
 }
