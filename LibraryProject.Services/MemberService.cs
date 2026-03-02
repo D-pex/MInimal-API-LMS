@@ -70,12 +70,32 @@ public sealed class MemberServices
         };
              
         _DbContext.Add(member); 
+        
         _DbContext.SaveChanges();
+        
         return new MemberDto(
             member.MemberId,
             member.MemberName,
             member.MemberType
            );
             
+    }
+
+    public MemberDto? UpdateMember( int id , UpdateMemberRequest updatememberrequest)
+    {
+        Member? member = _DbContext.Members.FirstOrDefault(m => m.MemberId == id);
+        
+        if  (member == null ) 
+            return  null;
+
+        member.MemberName = updatememberrequest.MemberName;
+        member.MemberType = updatememberrequest.MemberType;
+        
+        _DbContext.SaveChanges();
+
+        return new MemberDto(
+            member.MemberId, 
+            member.MemberName,
+            member.MemberType);
     }
 }

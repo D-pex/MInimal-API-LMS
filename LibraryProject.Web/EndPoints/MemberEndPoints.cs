@@ -23,6 +23,7 @@ public static class MemberEndpoints
         memberGroup.MapGet("{ID:int}", GetMemberById);
         memberGroup.MapGet("ByType/", GetMembersByType);
         memberGroup.MapPost("Add",AddMember);
+        memberGroup.MapPut("{id:int}", UpdateMember);
 
         return endpoints;
     }
@@ -48,6 +49,12 @@ public static class MemberEndpoints
     public static IResult AddMember(MemberServices service, CreateMemberRequest request)
     {
         MemberDto? member = service.AddMember(request);
+        return member == null ? TypedResults.NotFound() :  TypedResults.Ok(member);
+    }
+
+    public static IResult UpdateMember(MemberServices service,int id , UpdateMemberRequest request)
+    {
+        MemberDto? member = service.UpdateMember(id , request);
         return member == null ? TypedResults.NotFound() :  TypedResults.Ok(member);
     }
     
