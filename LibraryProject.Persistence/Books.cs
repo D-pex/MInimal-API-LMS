@@ -9,4 +9,6 @@ public sealed class Books
     public string PublisherName { get; set; } = string.Empty;
     public int CategoryID { get; set; }
     public Category Category { get; set; }
+    
+    public IList<BookIssue> BookIssueds { get; init; } = [];
 }

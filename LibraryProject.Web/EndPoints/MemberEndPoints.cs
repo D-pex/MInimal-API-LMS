@@ -41,7 +41,7 @@ public static class MemberEndpoints
             TypedResults.Ok(member);
     }
 
-   private static Ok<IEnumerable<MemberDto>> GetMembersByType(MemberServices service, int Id )
+    private static Ok<IEnumerable<MemberDto>> GetMembersByType(MemberServices service, int Id )
     {
         return TypedResults.Ok(service.GetMemberByType(Id));
     }
