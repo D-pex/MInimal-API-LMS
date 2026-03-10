@@ -4,7 +4,7 @@ namespace LibraryProject.Persistence;
 
 public sealed class BookIssue
 { 
-    [Key]
+    //[key] is the config file is not work 
     public int IssueID { get; init; }
     public DateOnly IssueDate { get; init; }
     public DateOnly ReturnDate { get; init; }

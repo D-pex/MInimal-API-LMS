@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibraryProject.Persistence.Configurations;
 
-public class MemberConfig : IEntityTypeConfiguration<Member>
+public sealed class MemberConfig : IEntityTypeConfiguration<Member>
 {
     public void Configure(EntityTypeBuilder<Member> builder)
     {
