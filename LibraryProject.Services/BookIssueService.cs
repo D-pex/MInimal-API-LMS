@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using LibraryProject.Core.Dtos;
 using LibraryProject.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +30,28 @@ public sealed class BookIssueService
                 bi.ReturnDate,
                 bi.RenewDate,
                 bi.BookID,
-                bi.MemberID))
+                bi.Member.MemberName))
             .ToList();
         return bookIssueServices;
+    } 
+    
+    public IEnumerable<BookIssueDto> GetBookIssueBySearch(string? member)
+    {
+        var query = _dbContext.BookIssues.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(member)) query = query.Where(bi => bi.Member.MemberName.Contains(member));
+
+        var result = query
+            .Include(m => m.Member)
+            .Select(bi => new BookIssueDto(
+                bi.Id,
+                bi.IssueDate,
+                bi.ReturnDate,
+                bi.RenewDate,
+                bi.BookID,
+                bi.Member.MemberName
+            )).ToList();
+
+        return new  ReadOnlyCollection<BookIssueDto>(result);
     }
-    public IEnumerable<BookIssueDto> BookBySearch
 }

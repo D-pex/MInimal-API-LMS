@@ -6,12 +6,12 @@ public sealed class BookIssueDto(
     DateOnly ReturnDate,
     DateOnly RenewDate,
     int BookID,
-    int MemberID)
+    string MemberName)
 {
     public int ID { get; } = ID;
     public DateOnly IssueDate { get; } = IssueDate;
     public DateOnly ReturnDate { get; } = ReturnDate;
     public DateOnly RenewDate { get; } = RenewDate;
     public int BookID { get; } = BookID;
-    public int MemberID { get; } = MemberID;
+    public string MemberName { get; } = MemberName;
 }
