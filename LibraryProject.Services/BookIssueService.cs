@@ -21,11 +21,11 @@ public sealed class BookIssueService
 
     public IEnumerable<BookIssueDto> BookIssue()
     {
-        IReadOnlyList<BookIssueDto> bookIssueServices = _dbContext.BookIssues
+        IReadOnlyList<BookIssueDto> bookIssueServices = _dbContext.BookIssue
             .Include(b => b.Book)
             .Include(m => m.Member)
             .Select(bi => new BookIssueDto(
-                bi.Id,
+                bi.IssueID,
                 bi.IssueDate,
                 bi.ReturnDate,
                 bi.RenewDate,
@@ -37,14 +37,14 @@ public sealed class BookIssueService
     
     public IEnumerable<BookIssueDto> GetBookIssueBySearch(string? member)
     {
-        var query = _dbContext.BookIssues.AsQueryable();
+        var query = _dbContext.BookIssue.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(member)) query = query.Where(bi => bi.Member.MemberName.Contains(member));
 
         var result = query
             .Include(m => m.Member)
             .Select(bi => new BookIssueDto(
-                bi.Id,
+                bi.IssueID,
                 bi.IssueDate,
                 bi.ReturnDate,
                 bi.RenewDate,

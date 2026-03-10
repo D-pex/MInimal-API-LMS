@@ -34,10 +34,11 @@ namespace LibraryProject.Web.EndPoints;
 
                 var bookIssuedGroup = endpoints.MapBookIssueGroup();
 
-    
+                bookIssuedGroup.MapGet("", GetBookIssue);
+                bookIssuedGroup.MapGet("Search", GetBookIssuedByMemberName);
                 return endpoints;
             }
-            private static Ok<IEnumerable<BookIssueDto>> GetBookIssued(BookIssueService bookIssuedServices)
+            private static Ok<IEnumerable<BookIssueDto>> GetBookIssue(BookIssueService bookIssuedServices)
             {
                 var books = bookIssuedServices.BookIssue();
 
