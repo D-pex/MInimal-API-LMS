@@ -7,6 +7,7 @@ public sealed class BookIssueDto(
     DateOnly? RenewDate,
     int BookID,
     string BookName, 
+    int MemberID,
     string MemberName)
 {
     public int ID { get; } = ID;
@@ -15,5 +16,6 @@ public sealed class BookIssueDto(
     public DateOnly? RenewDate { get; } = RenewDate;
     public int BookID { get; } = BookID;
     public string BookName { get; } = BookName;
+    public int MemberID { get; } = MemberID;
     public string MemberName { get;  } = MemberName;
 }

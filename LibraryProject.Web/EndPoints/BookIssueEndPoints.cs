@@ -1,4 +1,5 @@
 using LibraryProject.Core.Dtos;
+using LibraryProject.Core.Requests;
 using LibraryProject.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -35,21 +36,30 @@ public static class BookIssueEndpoints
         var bookIssuedGroup = endpoints.MapBookIssueGroup();
 
         bookIssuedGroup.MapGet("", GetBookIssue);
-        bookIssuedGroup.MapGet("Search", GetBookIssuedByMemberName);
+       // bookIssuedGroup.MapGet("Search", GetBookIssuedByMemberName);
+        bookIssuedGroup.MapPost("", CreateBookIssueRequest);
         return endpoints;
     }
 
-   private static Ok<IEnumerable<BookIssueDto>> GetBookIssue(BookIssueService bookIssuedServices, string? memberName)
+   private static Ok<IEnumerable<BookIssueDto>> GetBookIssue(BookIssueService bookIssueServices, string? memberName)
     {
-        var books = bookIssuedServices.BookIssue(memberName);
-
-        return TypedResults.Ok(books);
-    }
-
-    private static IResult GetBookIssuedByMemberName(BookIssueService bookIssuedServices, string? member)
-    {
-        var bookIssue = bookIssuedServices.GetBookIssueBySearch(member);
+        var bookIssue = bookIssueServices.BookIssue(memberName);
 
         return TypedResults.Ok(bookIssue);
     }
+
+    /*private static IResult GetBookIssuedByMemberName(BookIssueService bookIssueServices, string? member)
+    {
+        var bookIssue = bookIssueServices.GetBookIssueBySearch(member);
+
+        return TypedResults.Ok(bookIssue);
+    }*/
+    private static IResult CreateBookIssueRequest(BookIssueService bookIssueservice, CreateBookIssueRequest request)
+    {
+        var result = bookIssueservice.CreateBookIssueRequest(request);
+        return result is null
+            ? TypedResults.Problem("There was some problem. See log for more details.")
+            : TypedResults.Ok(result);
+    }
+
 }

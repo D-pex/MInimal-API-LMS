@@ -8,18 +8,18 @@ namespace LibraryProject.Services;
 
 public sealed class BooksService
 {
-    private readonly AppDbContext _DbContext;
+    private readonly AppDbContext _dbContext;
     private readonly ILogger<BooksService> _logger;
 
     public BooksService(AppDbContext dbContext, ILogger<BooksService> logger)
     {
-        _DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _logger = logger;
     }
 
     public IEnumerable<BooksDto> GetBooksList()
     {
-        var books = _DbContext.Book
+        var books = _dbContext.Book
             .Include(b => b.Category)
             .Select(b => new BooksDto(
                 b.BookId,
@@ -34,7 +34,7 @@ public sealed class BooksService
 
     public BooksDto? GetBookById(int Id)
     {
-        return _DbContext.Book
+        return _dbContext.Book
             .Where(b => b.BookId == Id)
             .Select(b => new BooksDto(
                 b.BookId, b.BookName, b.AuthorName, b.PublisherName, b.CategoryID))
@@ -43,10 +43,10 @@ public sealed class BooksService
 
     public BooksDto? AddBooks(int CategoryID, CreateBooksRequest createBooksRequest)
     {
-        var category = _DbContext.Category.FirstOrDefault(c => c.CategoryID == CategoryID);
+        var category = _dbContext.Category.FirstOrDefault(c => c.CategoryID == CategoryID);
         if (category == null) return null;
 
-        var books = _DbContext.Book.FirstOrDefault(b =>
+        var books = _dbContext.Book.FirstOrDefault(b =>
             b.BookName == createBooksRequest.BookName && b.AuthorName == createBooksRequest.AuthorName &&
             b.PublisherName == createBooksRequest.PublisherName
         );
@@ -61,8 +61,8 @@ public sealed class BooksService
             CategoryID = CategoryID
         };
 
-        _DbContext.Add(books);
-        _DbContext.SaveChanges();
+        _dbContext.Add(books);
+        _dbContext.SaveChanges();
         return new BooksDto(
             books.BookId,
             books.BookName,

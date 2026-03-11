@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using LibraryProject.Core.Dtos;
+using LibraryProject.Core.Requests;
 using LibraryProject.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -34,12 +35,13 @@ public sealed class BookIssueService
                 bi.RenewDate,
                 bi.BookID,
                 bi.Book.BookName,
+                bi.MemberID,
                 bi.Member.MemberName))
             .ToList();
         return bookIssueServices;
     }
 
-    public IEnumerable<BookIssueDto> GetBookIssueBySearch(string? member = null)
+    /*public IEnumerable<BookIssueDto> GetBookIssueBySearch(string? member = null)
     {
         IQueryable<BookIssue> query = _dbContext.BookIssue.AsQueryable();
 
@@ -54,10 +56,49 @@ public sealed class BookIssueService
                 bi.RenewDate,
                 bi.BookID,
                 bi.Book.BookName,
+                bi.MemberID,
                 bi.Member.MemberName
             )).ToList();
 
         return new ReadOnlyCollection<BookIssueDto>(result);
-    } 
-    
+    } */
+    public BookIssueDto? CreateBookIssueRequest(CreateBookIssueRequest request)
+    {
+        try
+        {
+            var book = _dbContext.Book.FirstOrDefault(b => b.BookId == request.BookID);
+            var member = _dbContext.Members.FirstOrDefault(m => m.MemberId == request.MemberID);
+            
+            if (book == null || member == null)
+                return null;
+            
+            var bookIssue = new BookIssue
+            {
+                MemberID = request.MemberID,
+                BookID = request.BookID,
+                IssueDate = DateOnly.FromDateTime(DateTime.Today),
+                ReturnDate = DateOnly.FromDateTime(DateTime.Today).AddDays(15)
+            };
+            _dbContext.Add(bookIssue);
+            _dbContext.SaveChanges();
+            
+            return new BookIssueDto(
+                bookIssue.IssueID,
+                bookIssue.IssueDate,
+                bookIssue.ReturnDate,
+                bookIssue.RenewDate,
+                bookIssue.BookID,
+                book.BookName,
+                bookIssue.MemberID,
+                member.MemberName
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Unexpected error while creating Books Issue for Member Id {MemberID} ",
+                request.MemberID);
+        }
+        return null;
+    }
 }
