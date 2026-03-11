@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using LibraryProject.Core.Dtos;
 using LibraryProject.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 
 namespace LibraryProject.Services;
@@ -16,12 +15,16 @@ public sealed class BookIssueService
     {
         _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
         _logger = logger;
-        
     }
 
-    public IEnumerable<BookIssueDto> BookIssue()
+    public IEnumerable<BookIssueDto> BookIssue(string? memberName = null)
     {
-        IReadOnlyList<BookIssueDto> bookIssueServices = _dbContext.BookIssue
+        IQueryable<BookIssue> query = _dbContext.BookIssue.AsQueryable();
+        if(memberName != null)
+        {
+            query = query.Where(bi => bi.Member.MemberName.Contains(memberName));
+        }
+        IReadOnlyList<BookIssueDto> bookIssueServices = query
             .Include(b => b.Book)
             .Include(m => m.Member)
             .Select(bi => new BookIssueDto(
@@ -30,18 +33,19 @@ public sealed class BookIssueService
                 bi.ReturnDate,
                 bi.RenewDate,
                 bi.BookID,
+                bi.Book.BookName,
                 bi.Member.MemberName))
             .ToList();
         return bookIssueServices;
-    } 
-    
-    public IEnumerable<BookIssueDto> GetBookIssueBySearch(string? member)
+    }
+
+    public IEnumerable<BookIssueDto> GetBookIssueBySearch(string? member = null)
     {
-        var query = _dbContext.BookIssue.AsQueryable();
+        IQueryable<BookIssue> query = _dbContext.BookIssue.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(member)) query = query.Where(bi => bi.Member.MemberName.Contains(member));
+        if (member!= null) query = query.Where(bi => bi.Member.MemberName.Contains(member));
 
-        var result = query
+        List<BookIssueDto> result = query
             .Include(m => m.Member)
             .Select(bi => new BookIssueDto(
                 bi.IssueID,
@@ -49,10 +53,11 @@ public sealed class BookIssueService
                 bi.ReturnDate,
                 bi.RenewDate,
                 bi.BookID,
+                bi.Book.BookName,
                 bi.Member.MemberName
             )).ToList();
 
-        return new  ReadOnlyCollection<BookIssueDto>(result);
-    }
+        return new ReadOnlyCollection<BookIssueDto>(result);
+    } 
     
 }

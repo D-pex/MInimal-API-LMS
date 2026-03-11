@@ -1,5 +1,4 @@
-﻿
-namespace LibraryProject.Core.Requests;
+﻿namespace LibraryProject.Core.Requests;
 
 public sealed class UpdateMemberRequest
 {

@@ -1,7 +1,6 @@
 using LibraryProject.Core.Dtos;
 using LibraryProject.Core.Requests;
 using LibraryProject.Persistence;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace LibraryProject.Services;
@@ -51,50 +50,45 @@ public sealed class MemberServices
             .ToList();
         return memberDtos;
     }
-    
-    public MemberDto?  AddMember( CreateMemberRequest creatememberrequest)
+
+    public MemberDto? AddMember(CreateMemberRequest creatememberrequest)
     {
-       
+        var member = _DbContext.Members.FirstOrDefault(m =>
+            m.MemberName == creatememberrequest.MemberName && m.MemberType == creatememberrequest.MemberType);
 
-        Member?  member = _DbContext.Members.FirstOrDefault(m => m.MemberName == creatememberrequest.MemberName && m.MemberType == creatememberrequest.MemberType);
-
-        if (member is not null)
-        {
-            return null;
-        }
+        if (member is not null) return null;
 
         member = new Member
         {
             MemberName = creatememberrequest.MemberName,
-            MemberType = creatememberrequest.MemberType,
+            MemberType = creatememberrequest.MemberType
         };
-             
-        _DbContext.Add(member); 
-        
+
+        _DbContext.Add(member);
+
         _DbContext.SaveChanges();
-        
+
         return new MemberDto(
             member.MemberId,
             member.MemberName,
             member.MemberType
-           );
-            
+        );
     }
 
-    public MemberDto? UpdateMember( int id , UpdateMemberRequest updatememberrequest)
+    public MemberDto? UpdateMember(int id, UpdateMemberRequest updatememberrequest)
     {
-        Member? member = _DbContext.Members.FirstOrDefault(m => m.MemberId == id);
-        
-        if  (member == null ) 
-            return  null;
+        var member = _DbContext.Members.FirstOrDefault(m => m.MemberId == id);
+
+        if (member == null)
+            return null;
 
         member.MemberName = updatememberrequest.MemberName;
         member.MemberType = updatememberrequest.MemberType;
-        
+
         _DbContext.SaveChanges();
 
         return new MemberDto(
-            member.MemberId, 
+            member.MemberId,
             member.MemberName,
             member.MemberType);
     }

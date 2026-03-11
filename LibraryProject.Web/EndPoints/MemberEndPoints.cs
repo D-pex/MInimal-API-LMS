@@ -22,7 +22,7 @@ public static class MemberEndpoints
         memberGroup.MapGet("", GetAllMembers);
         memberGroup.MapGet("{ID:int}", GetMemberById);
         memberGroup.MapGet("ByType/", GetMembersByType);
-        memberGroup.MapPost("Add",AddMember);
+        memberGroup.MapPost("Add", AddMember);
         memberGroup.MapPut("{id:int}", UpdateMember);
 
         return endpoints;
@@ -35,27 +35,25 @@ public static class MemberEndpoints
 
     private static IResult GetMemberById(MemberServices service, int id)
     {
-        MemberDto? member = service.GetMemberById(id);
+        var member = service.GetMemberById(id);
 
-        return member == null ? TypedResults.NotFound():
-            TypedResults.Ok(member);
+        return member == null ? TypedResults.NotFound() : TypedResults.Ok(member);
     }
 
-    private static Ok<IEnumerable<MemberDto>> GetMembersByType(MemberServices service, int Id )
+    private static Ok<IEnumerable<MemberDto>> GetMembersByType(MemberServices service, int Id)
     {
         return TypedResults.Ok(service.GetMemberByType(Id));
     }
 
     public static IResult AddMember(MemberServices service, CreateMemberRequest request)
     {
-        MemberDto? member = service.AddMember(request);
-        return member == null ? TypedResults.NotFound() :  TypedResults.Ok(member);
+        var member = service.AddMember(request);
+        return member == null ? TypedResults.NotFound() : TypedResults.Ok(member);
     }
 
-    public static IResult UpdateMember(MemberServices service,int id , UpdateMemberRequest request)
+    public static IResult UpdateMember(MemberServices service, int id, UpdateMemberRequest request)
     {
-        MemberDto? member = service.UpdateMember(id , request);
-        return member == null ? TypedResults.NotFound() :  TypedResults.Ok(member);
+        var member = service.UpdateMember(id, request);
+        return member == null ? TypedResults.NotFound() : TypedResults.Ok(member);
     }
-    
 }

@@ -11,11 +11,11 @@ public static class BooksEndpoints
     public static IEndpointRouteBuilder MapBooksEndpoints(this IEndpointRouteBuilder endpoints)
     {
         ArgumentNullException.ThrowIfNull(endpoints);
-        
+
         endpoints.MapGet("Books", GetBooks);
-        endpoints.MapGet("Books/{ID:int}", GetBook);  
-        endpoints.MapPost("Books/Category/{categoryId:int}", AddBooks); 
-       
+        endpoints.MapGet("Books/{ID:int}", GetBook);
+        endpoints.MapPost("Books/Category/{categoryId:int}", AddBooks);
+
 
         return endpoints;
     }
@@ -23,7 +23,7 @@ public static class BooksEndpoints
     private static Ok<IEnumerable<BooksDto>> GetBooks(BooksService booksService)
     {
         var books = booksService.GetBooksList();
-    
+
         return TypedResults.Ok(books);
     }
 
@@ -31,14 +31,13 @@ public static class BooksEndpoints
     {
         var books = service.GetBookById(ID);
 
-        return books == null ? TypedResults.NotFound() : TypedResults.Ok(books); 
+        return books == null ? TypedResults.NotFound() : TypedResults.Ok(books);
     }
 
     public static IResult AddBooks(BooksService booksService, int categoryId,
-        [FromBody]CreateBooksRequest createBooksRequest)
+        [FromBody] CreateBooksRequest createBooksRequest)
     {
-        BooksDto? booksDto = booksService.AddBooks( categoryId , createBooksRequest ) ;
+        var booksDto = booksService.AddBooks(categoryId, createBooksRequest);
         return booksDto is null ? TypedResults.NotFound("Book Is Already Present ") : TypedResults.Ok(booksDto);
-
     }
 }

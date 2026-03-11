@@ -43,21 +43,15 @@ public sealed class BooksService
 
     public BooksDto? AddBooks(int CategoryID, CreateBooksRequest createBooksRequest)
     {
-        Category? category = _DbContext.Category.FirstOrDefault(c => c.CategoryID == CategoryID);
-        if (category == null)
-        {
-            return null;                
-        }
+        var category = _DbContext.Category.FirstOrDefault(c => c.CategoryID == CategoryID);
+        if (category == null) return null;
 
-        Books? books = _DbContext.Book.FirstOrDefault(b =>
+        var books = _DbContext.Book.FirstOrDefault(b =>
             b.BookName == createBooksRequest.BookName && b.AuthorName == createBooksRequest.AuthorName &&
             b.PublisherName == createBooksRequest.PublisherName
         );
 
-        if (books is not null)
-        {
-            return null;
-        }
+        if (books is not null) return null;
 
         books = new Books
         {
@@ -65,10 +59,9 @@ public sealed class BooksService
             AuthorName = createBooksRequest.AuthorName,
             PublisherName = createBooksRequest.PublisherName,
             CategoryID = CategoryID
-
         };
-             
-        _DbContext.Add(books); 
+
+        _DbContext.Add(books);
         _DbContext.SaveChanges();
         return new BooksDto(
             books.BookId,
@@ -76,6 +69,5 @@ public sealed class BooksService
             books.AuthorName,
             books.PublisherName,
             books.CategoryID);
-            
     }
 }
