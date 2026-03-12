@@ -21,10 +21,11 @@ public sealed class BookIssueService
     public IEnumerable<BookIssueDto> BookIssue(string? memberName = null)
     {
         IQueryable<BookIssue> query = _dbContext.BookIssue.AsQueryable();
-        if(memberName != null)
+        if (memberName != null)
         {
             query = query.Where(bi => bi.Member.MemberName.Contains(memberName));
         }
+
         IReadOnlyList<BookIssueDto> bookIssueServices = query
             .Include(b => b.Book)
             .Include(m => m.Member)
@@ -68,10 +69,10 @@ public sealed class BookIssueService
         {
             var book = _dbContext.Book.FirstOrDefault(b => b.BookId == request.BookID);
             var member = _dbContext.Members.FirstOrDefault(m => m.MemberId == request.MemberID);
-            
+
             if (book == null || member == null)
                 return null;
-            
+
             var bookIssue = new BookIssue
             {
                 MemberID = request.MemberID,
@@ -81,7 +82,7 @@ public sealed class BookIssueService
             };
             _dbContext.Add(bookIssue);
             _dbContext.SaveChanges();
-            
+
             return new BookIssueDto(
                 bookIssue.IssueID,
                 bookIssue.IssueDate,
@@ -96,9 +97,36 @@ public sealed class BookIssueService
         catch (Exception ex)
         {
             _logger.LogError(ex,
-                "Unexpected error while creating Books Issue for Member Id {MemberID} ",
+                "Unexpected error occur's  while creating Books Issue for Member Id {MemberID} ",
                 request.MemberID);
         }
+
         return null;
+    }
+
+    public BookIssueDto UpdateBookIssueRequset (UpdateBookIssueRequset request, int IssueID)
+    {
+        var bookIssue = _dbContext.BookIssue
+            .Include(b => b.Book)
+            .Include(m => m.Member)
+            .FirstOrDefault(b => b.IssueID == IssueID);
+        if (bookIssue is null)
+            throw new Exception($"Book issue with id {IssueID} not found");
+        
+        bookIssue.ReturnDate = DateOnly.FromDateTime(DateTime.Today).AddDays(15);
+        bookIssue.RenewDate = DateOnly.FromDateTime(DateTime.Today);
+
+        _dbContext.SaveChanges();
+
+        return new BookIssueDto(
+            bookIssue.IssueID,
+            bookIssue.IssueDate,
+            bookIssue.ReturnDate,
+            bookIssue.RenewDate,
+            bookIssue.BookID,
+            bookIssue.Book.BookName,
+            bookIssue.MemberID,
+            bookIssue.Member.MemberName
+        );
     }
 }
