@@ -1,9 +1,11 @@
+---
+
 # 📚 Library Management System (LMS) – Minimal API
 
-A **Library Management System backend API** built using **.NET Minimal API and Entity Framework Core**.
-This project manages books, users, categories, and book issuing operations.
+A **Library Management System backend API** built using **ASP.NET Core Minimal API** and **Entity Framework Core**.
+This project provides RESTful endpoints to manage **books, categories, members, and book issuing operations** in a library.
 
-> ⚡ Backend-only project (No frontend included)
+> ⚡ This is a **backend-only project** (No frontend included).
 
 ---
 
@@ -14,12 +16,13 @@ This project manages books, users, categories, and book issuing operations.
 * 🔗 API Endpoints
 * ▶️ How to Run the Project
 * ⭐ Features
+* 👨‍💻 Author
 
 ---
 
 # 🚀 Tech Stack
 
-* **.NET 6 / .NET 7 / .NET 8**
+* **.NET 8**
 * **ASP.NET Core Minimal API**
 * **Entity Framework Core**
 * **SQL Server**
@@ -31,10 +34,17 @@ This project manages books, users, categories, and book issuing operations.
 
 The system contains the following main modules:
 
-* 📚 **Books** – Manage library books
-* 🏷 **Categories** – Book categories (Fiction, Non-Fiction, etc.)
-* 👤 **Memebrs** – Library members
-* 📖  **BookIssue** – Issue and return books
+📚 **Books**
+Manage library books including adding, updating, retrieving, and deleting.
+
+🏷 **Categories**
+Manage book categories such as Fiction, Non-Fiction, Science, etc.
+
+👤 **Members**
+Manage library members who borrow books.
+
+📖 **BookIssue**
+Handle book issuing, searching issued books, and renewing books.
 
 ---
 
@@ -44,74 +54,81 @@ The system contains the following main modules:
 
 | Method | Endpoint          | Description    |
 | ------ | ----------------- | -------------- |
-| GET    | `/api/Books`      | Get all books  |
-| GET    | `/api/Books/{id}` | Get book by ID |
-| POST   | `/api/Books`      | Add new book   |
-| PUT    | `/api/Books/{id}` | Update book    |
-| DELETE | `/api/Books/{id}` | Delete book    |
+| GET    | `/api/books`      | Get all books  |
+| GET    | `/api/books/{id}` | Get book by ID |
+| POST   | `/api/books`      | Add a new book |
+| PUT    | `/api/books/{id}` | Update book    |
+| DELETE | `/api/books/{id}` | Delete book    |
 
 ---
 
-## 👤 Users
+## 👤 Members
 
-| Method | Endpoint     |
-| ------ | ------------ |
-| GET    | `/api/Member` |
-| POST   | `/api/Member` |
+| Method | Endpoint      | Description     |
+| ------ | ------------- | --------------- |
+| GET    | `/api/member` | Get all members |
+| POST   | `/api/member` | Add new member  |
 
 ---
 
 ## 🏷 Categories
 
-| Method | Endpoint          |
-| ------ | ----------------- |
-| GET    | `/api/Categories` |
-| POST   | `/api/Categories` |
+| Method | Endpoint          | Description        |
+| ------ | ----------------- | ------------------ |
+| GET    | `/api/categories` | Get all categories |
+| POST   | `/api/categories` | Add category       |
 
 ---
 
-## 📖 Books Issued
+## 📖 Book Issue
 
-| Method | Endpoint                         | Description         |
-| ------ | -------------------------------- | ------------------- |
-| GET    | `/api/BookIssue`                 | Get Issued books    |
-| GET    | `/api/BookIssue/search/{member}` | Search Issued books |
-| POST   | `/api/BookIssue`                 | Issue a book        |
-| PUT    | `/api/BookIssue/renew/{id}`      | Renew Issued book   |
+| Method | Endpoint                         | Description                   |
+| ------ | -------------------------------- | ----------------------------- |
+| GET    | `/api/bookissue`                 | Get issued books              |
+| GET    | `/api/bookissue/search/{member}` | Search issued books by member |
+| POST   | `/api/bookissue`                 | Issue a book                  |
+| PUT    | `/api/bookissue/renew/{id}`      | Renew issued book             |
 
 ---
 
 # ▶️ How to Run the Project
 
-### 1️⃣ Clone the Repository
+## 1️⃣ Clone the Repository
 
 ```bash
-https://github.com/D-pex/Project-LIBRARY.git
+git clone https://github.com/D-pex/MInimal-API-LMS.git
+cd MInimal-API-LMS
 ```
 
 ---
 
-### 2️⃣ Configure Database
+## 2️⃣ Configure Database
 
-Update **appsettings.json**
+Update the **appsettings.json** file:
 
 ```json
 "ConnectionStrings": {
- "MyDbContext": "Server=YOUR_SERVER;Database=Library Project;Trusted_Connection=True;TrustServerCertificate=True"
+  "MyDbContext": "Server=YOUR_SERVER;Database=LibraryProject;Trusted_Connection=True;TrustServerCertificate=True"
 }
 ```
 
+Replace `YOUR_SERVER` with your **SQL Server instance**.
+
 ---
 
-### 3️⃣ Apply Database Migration
+## 3️⃣ Apply Database Migration
+
+Run the following command:
 
 ```bash
 dotnet ef database update
 ```
 
+This will create the database and required tables.
+
 ---
 
-### 4️⃣ Run the Application
+## 4️⃣ Run the Application
 
 ```bash
 dotnet run
@@ -120,18 +137,19 @@ dotnet run
 The API will start at:
 
 ```
-https://localhost:5XXX
+https://localhost:5000
 ```
 
 ---
 
 # ⭐ Features
 
-✔ Clean **Minimal API Architecture**,
-✔ **Entity Framework Core** integration,
-✔ Modular endpoint structure,
-✔ RESTful API design,
-✔ SQL Server database.
+✔ Clean **Minimal API architecture**   
+✔ **Entity Framework Core** for database operations  
+✔ **SQL Server** integration   
+✔ Modular and scalable endpoint structure   
+✔ RESTful API design    
+✔ Easy to extend for frontend integration  
 
 ---
 
@@ -140,4 +158,6 @@ https://localhost:5XXX
 **D-pex**
 
 GitHub:
-https://github.com/D-pex
+[https://github.com/D-pex](https://github.com/D-pex)
+
+---
