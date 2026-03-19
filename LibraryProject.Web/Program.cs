@@ -44,6 +44,7 @@ apiGroup
     .MapMemberEndpoints()
     .MapCategoryEndpoints()
     .MapBookIssuedEndpoints();
+    //.MapBookIssuedEndpoints();
 
 
 app.MapGet("/", () => $"Running in {app.Environment.EnvironmentName} right now.");
