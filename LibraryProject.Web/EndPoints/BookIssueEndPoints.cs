@@ -59,14 +59,14 @@ public static class BookIssueEndpoints
     {
         var result = bookIssueservice.CreateBookIssueRequest(request);
         return result is null
-            ? TypedResults.Problem("There was some problem. See log for more details.")
+            ? TypedResults.Problem("There was some problem in creating. See log for more info.")
             : TypedResults.Ok(result);
     }
     private static IResult UpdateBookIssueRequset(BookIssueService bookIssueservice, UpdateBookIssueRequset request , int IssueID)
     {
         var result = bookIssueservice.UpdateBookIssueRequset(request, IssueID);
         return result is null
-            ? TypedResults.Problem("There was some problem. See log for more details.")
+            ? TypedResults.Problem("There was some problem in updating. See log for more info.")
             : TypedResults.Ok(result);
     }
     
